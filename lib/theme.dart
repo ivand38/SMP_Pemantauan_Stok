@@ -9,11 +9,15 @@ Color bgColor3 = const Color(0xff3750b2);
 Color primaryTextColor = const Color(0xff1F292E);
 Color secondaryTextColor = const Color(0xff415058);
 Color whiteSecondaryTextColor = const Color(0xffE6E6E6);
-Color greenTextColor = const Color(0xff6BC73D);
+Color greenTextColor = const Color(0xff59A633);
+Color greenShadeColor = const Color(0xffE1F4D8);
 Color redTextColor = const Color(0xffE02424);
+Color redShadeColor = const Color(0xffF9D3D3);
+Color blueShadeColor = const Color(0xffD7DCF0);
 Color blueTextColor = const Color(0xff1449D1);
 Color strokeColor = const Color(0xffBDC0C2);
-Color greyColor = const Color(0xffA3A6A9);
+Color greyColor = Color(0xffBABBD0);
+Color greyColor2 = const Color(0xffF8F8F8);
 Color transparentColor = Colors.transparent;
 
 TextStyle primaryTextStyle = GoogleFonts.rubik(color: primaryTextColor);
@@ -25,9 +29,7 @@ TextStyle whiteTextStyle = GoogleFonts.rubik(color: bgColor1);
 TextStyle secondaryWhiteTextStyle =
     GoogleFonts.rubik(color: whiteSecondaryTextColor);
 
-TextStyle blueTextStyle = GoogleFonts.rubik(color: blueTextColor);
-
-TextStyle purpleTextStyle = GoogleFonts.rubik(color: bgColor3);
+TextStyle blueTextStyle = GoogleFonts.rubik(color: bgColor3);
 
 TextStyle greenTextStyle = GoogleFonts.rubik(color: greenTextColor);
 

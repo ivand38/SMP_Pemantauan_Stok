@@ -36,4 +36,34 @@ class AuthProvider with ChangeNotifier {
     _user.access_token = null;
     notifyListeners();
   }
+
+  Future<bool> generateCode(String? email) async {
+    try {
+      await AuthService().GenerateCode(email);
+      return true;
+    } catch (e) {
+      logger.d(e);
+      return false;
+    }
+  }
+
+  Future<bool> checkCode(String? code) async {
+    try {
+      await AuthService().CheckCode(code);
+      return true;
+    } catch (e) {
+      logger.d(e);
+      return false;
+    }
+  }
+
+  Future<bool> changePass(String? password) async {
+    try {
+      await AuthService().ChangePassword(password);
+      return true;
+    } catch (e) {
+      logger.d(e);
+      return false;
+    }
+  }
 }

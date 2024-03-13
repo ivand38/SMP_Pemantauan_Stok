@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:smp_app/page/login.dart';
 import 'package:smp_app/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:smp_app/providers/stok_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

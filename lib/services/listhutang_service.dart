@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:smp_app/models/stok_model.dart';
+import 'package:smp_app/models/listhutang_model.dart';
 import 'package:logger/logger.dart';
 
-class StokService {
+class ListHutangService {
   var logger = Logger();
   String baseUrl = 'https://79ff-36-65-189-223.ngrok-free.app/api';
 
-  Future<List<StokModel>> getStok(String token) async {
-    var url = '$baseUrl/stok';
+  Future<List<ListHutangModel>> getListHutang(String token) async {
+    var url = '$baseUrl/hutang';
     var headers = {
       'Content-Type': 'application/json',
       'Authorization': token,
@@ -22,15 +22,16 @@ class StokService {
 
     if (response.statusCode == 200) {
       List data = json.decode(response.body)['data'];
-      List<StokModel> stoks = [];
+      List<ListHutangModel> listHutangs = [];
 
       for (var item in data) {
-        stoks.add(StokModel.fromJson(item));
+        listHutangs.add(ListHutangModel.fromJson(item));
       }
 
-      return stoks;
+      return listHutangs;
     } else {
-      throw Exception('Gagal Mengambil Data Stok');
+      List<ListHutangModel> listHutangs = [];
+      return listHutangs;
     }
   }
 }

@@ -18,43 +18,46 @@ class _OmzetPageState extends State<OmzetPage> {
   Widget build(BuildContext context) {
     Widget buttonNavbar() {
       return Container(
-        decoration: BoxDecoration(
-          color: bgColor1,
-          border: Border(top: BorderSide(color: strokeColor, width: 1)),
-        ),
-        child: BottomNavigationBar(
-            backgroundColor: bgColor1,
-            elevation: 0,
-            unselectedItemColor: greyColor,
-            selectedItemColor: bgColor3,
-            currentIndex: _currentindex,
-            onTap: (value) {
-              setState(() {
-                _currentindex = value;
-              });
-            },
-            type: BottomNavigationBarType.fixed,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Symbols.person_apron,
-                  size: 25,
+        color: bgColor1,
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+          child: BottomNavigationBar(
+              backgroundColor: Colors.white,
+              elevation: 0,
+              unselectedItemColor: greyColor,
+              selectedItemColor: bgColor3,
+              currentIndex: _currentindex,
+              onTap: (value) {
+                setState(() {
+                  _currentindex = value;
+                });
+              },
+              type: BottomNavigationBarType.fixed,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Symbols.person_apron,
+                    size: 25,
+                  ),
+                  label: '',
                 ),
-                label: '',
-              ),
-              BottomNavigationBarItem(
-                  icon: Icon(
-                    Symbols.storefront,
-                    size: 25,
-                  ),
-                  label: ''),
-              BottomNavigationBarItem(
-                  icon: Icon(
-                    Symbols.medication,
-                    size: 25,
-                  ),
-                  label: ''),
-            ]),
+                BottomNavigationBarItem(
+                    icon: Icon(
+                      Symbols.storefront,
+                      size: 25,
+                    ),
+                    label: ''),
+                BottomNavigationBarItem(
+                    icon: Icon(
+                      Symbols.medication,
+                      size: 25,
+                    ),
+                    label: ''),
+              ]),
+        ),
       );
     }
 
@@ -73,6 +76,7 @@ class _OmzetPageState extends State<OmzetPage> {
 
     return SafeArea(
       child: Scaffold(
+        extendBody: true,
         bottomNavigationBar: buttonNavbar(),
         body: bodyPage(),
       ),

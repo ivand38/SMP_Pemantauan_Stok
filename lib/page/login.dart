@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
             height: 50,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              color: bgColor1,
+              color: greyColor2,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(color: strokeColor),
             ),
@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
         height: 50,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
-            color: bgColor1,
+            color: greyColor2,
             border: Border.all(color: strokeColor),
             borderRadius: const BorderRadius.all(
               Radius.circular(20),
@@ -160,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
             margin: const EdgeInsets.only(top: 200),
             padding: const EdgeInsets.only(top: 20, left: 30, right: 30),
             decoration: BoxDecoration(
-              color: bgColor1,
+              color: Colors.white,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(30),
                 topRight: Radius.circular(30),
@@ -185,7 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                 Align(
                     child: Text('Silahkan Masukkan Email dan Password',
                         style: secondaryTextStyle.copyWith(
-                            fontSize: 14, fontWeight: light),
+                            fontSize: 14, fontWeight: regular),
                         textAlign: TextAlign.center)),
                 const SizedBox(height: 30.0),
                 emailInput(),
@@ -193,6 +193,21 @@ class _LoginPageState extends State<LoginPage> {
                   height: 20,
                 ),
                 passwordInput(),
+                SizedBox(
+                  height: 10,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/forgotpass');
+                  },
+                  child: Text('Lupa Password?',
+                      style: blueTextStyle.copyWith(
+                          fontSize: 14,
+                          fontWeight: medium,
+                          decoration: TextDecoration.underline,
+                          decorationColor: bgColor3,
+                          decorationThickness: 0.8)),
+                ),
                 const SizedBox(
                   height: 30,
                 ),

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:smp_app/theme.dart';
-import 'package:material_symbols_icons/symbols.dart';
-import 'package:intl/intl.dart';
 import 'package:smp_app/models/stok_model.dart';
 import 'package:smp_app/providers/stok_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smp_app/widget/stok_card.dart';
 
 class StokPage extends StatefulWidget {
   const StokPage({super.key});
@@ -15,22 +13,11 @@ class StokPage extends StatefulWidget {
 }
 
 class _StokPageState extends State<StokPage> {
-  // DateTimeRange dateRange = DateTimeRange(
-  //   start: DateTime.now(),
-  //   end: DateTime.now(),
-  // );
-
-  DateTime _dateTime = DateTime.now();
-  DateFormat myFormat = DateFormat('dd MMMM yyyy');
-
-  int _currentPage = 1;
-  int _pageSize = 10;
   bool _isLoading = false;
 
+  @override
   void initState() {
     super.initState();
-    _dateTime = DateTime.now();
-    getDate();
     getInit();
   }
 
@@ -44,27 +31,15 @@ class _StokPageState extends State<StokPage> {
     });
   }
 
-  void _showDatePicker() {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2025),
-    ).then((value) {
-      setState(() {
-        _dateTime = value!;
-        getDate();
-        getInit();
-      });
+  void _onSearchChanged(String value) {
+    setState(() {
+      searchText = value;
     });
   }
 
-  Future<DateTime?> getDate() async {
-    DateFormat apiFormat = DateFormat('yyyy-MM-dd');
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('apidate', apiFormat.format(_dateTime).toString());
-    return _dateTime;
-  }
+  bool _isSearchClicked = false;
+  final TextEditingController _searchController = TextEditingController();
+  String searchText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -73,208 +48,136 @@ class _StokPageState extends State<StokPage> {
       child: Scaffold(
         backgroundColor: bgColor1,
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          centerTitle: true,
-          title: const Text('Data Persediaan Barang'),
-          titleTextStyle:
-              primaryTextStyle.copyWith(fontSize: 16, fontWeight: semiBold),
-        ),
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            leading: _isSearchClicked
+                ? null
+                : Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.arrow_back, color: primaryTextColor),
+                    ),
+                  ),
+            centerTitle: true,
+            title: _isSearchClicked
+                ? Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: TextField(
+                      autofocus: true,
+                      controller: _searchController,
+                      onChanged: _onSearchChanged,
+                      decoration: InputDecoration(
+                          prefixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _isSearchClicked = !_isSearchClicked;
+                                  if (!_isSearchClicked) {
+                                    _searchController.clear();
+                                  }
+                                  searchText = '';
+                                });
+                              },
+                              child: Icon(Icons.arrow_back,
+                                  color: secondaryTextColor)),
+                          contentPadding: const EdgeInsets.only(
+                              left: 16, top: 20, right: 16, bottom: 12),
+                          hintText: 'Cari Nama Barang',
+                          hintStyle: secondaryTextStyle.copyWith(fontSize: 14),
+                          border: InputBorder.none),
+                    ),
+                  )
+                : Text('Data Persediaan Barang',
+                    style: primaryTextStyle.copyWith(
+                        fontSize: 16, fontWeight: semiBold)),
+            titleTextStyle:
+                primaryTextStyle.copyWith(fontSize: 16, fontWeight: semiBold),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: _isSearchClicked
+                    ? null
+                    : IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _isSearchClicked = !_isSearchClicked;
+                          });
+                        },
+                        icon: const Icon(Icons.search),
+                        color: primaryTextColor,
+                      ),
+              ),
+            ]),
         body: _isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
+            ? Center(
+                child: CircularProgressIndicator(
+                  color: bgColor3,
+                ),
               )
             : SingleChildScrollView(
                 child: Container(
-                  margin: const EdgeInsets.all(30),
+                  margin: const EdgeInsets.only(
+                      left: 30, right: 30, bottom: 30, top: 20),
+                  decoration: const BoxDecoration(),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FittedBox(
-                        fit: BoxFit.fitWidth,
-                        child: GestureDetector(
-                          onTap: () {
-                            _showDatePicker();
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            height: 35,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: bgColor3, style: BorderStyle.solid),
-                                borderRadius: BorderRadius.circular(20)),
-                            child: Row(children: [
-                              Icon(
-                                Symbols.calendar_month,
-                                size: 20,
-                                color: bgColor3,
-                              ),
-                              Icon(
-                                Symbols.arrow_drop_down,
-                                size: 20,
-                                color: bgColor3,
-                              ),
-                              Text(
-                                myFormat.format(_dateTime).toString(),
-                                style: purpleTextStyle.copyWith(
-                                    fontSize: 12, fontWeight: regular),
-                              )
-                            ]),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Theme(
-                        data: tableTheme,
-                        child: PaginatedDataTable(
-                          headingRowColor:
-                              MaterialStatePropertyAll(Colors.grey.shade300),
-                          rowsPerPage: 10,
-                          columnSpacing: 25,
-                          columns: [
-                            DataColumn(
-                                label: Expanded(
-                              child: Center(
-                                child: Text('No',
-                                    style: primaryTextStyle.copyWith(
-                                      fontSize: 12,
-                                      fontWeight: medium,
-                                    )),
-                              ),
-                            )),
-                            DataColumn(
-                                label: Expanded(
-                              child: Center(
-                                child: Text('Nama Produk',
-                                    style: primaryTextStyle.copyWith(
-                                      fontSize: 12,
-                                      fontWeight: regular,
-                                    )),
-                              ),
-                            )),
-                            DataColumn(
-                                label: Expanded(
-                              child: Center(
-                                child: Text('Satuan',
-                                    style: primaryTextStyle.copyWith(
-                                      fontSize: 12,
-                                      fontWeight: regular,
-                                    )),
-                              ),
-                            )),
-                            DataColumn(
-                                label: Expanded(
-                              child: Center(
-                                child: Text('Stok Awal',
-                                    style: primaryTextStyle.copyWith(
-                                      fontSize: 12,
-                                      fontWeight: regular,
-                                    )),
-                              ),
-                            )),
-                            DataColumn(
-                                label: Expanded(
-                              child: Center(
-                                child: Text('Stok Masuk',
-                                    style: primaryTextStyle.copyWith(
-                                      fontSize: 12,
-                                      fontWeight: regular,
-                                    )),
-                              ),
-                            )),
-                            DataColumn(
-                                label: Expanded(
-                              child: Center(
-                                child: Text('Stok Keluar',
-                                    style: primaryTextStyle.copyWith(
-                                      fontSize: 12,
-                                      fontWeight: regular,
-                                    )),
-                              ),
-                            )),
-                            DataColumn(
-                                label: Expanded(
-                              child: Center(
-                                child: Text('Stok Akhir',
-                                    style: primaryTextStyle.copyWith(
-                                      fontSize: 12,
-                                      fontWeight: regular,
-                                    )),
-                              ),
-                            )),
-                          ],
-                          source: StockData(data: stokProvider.stoks),
-                        ),
-                      )
-                    ],
-                  ),
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: searchText.isEmpty
+                          ? stokProvider.stoks
+                              .map((stok) => StokCard(stok))
+                              .toList()
+                          : stokProvider.stoks
+                                  .where((element) => element.namaProduk!
+                                      .toLowerCase()
+                                      .contains(searchText.toLowerCase()))
+                                  .isNotEmpty
+                              ? stokProvider.stoks
+                                  .where((element) => element.namaProduk!
+                                      .toLowerCase()
+                                      .contains(searchText.toLowerCase()))
+                                  .map((stok) => StokCard(stok))
+                                  .toList()
+                              : [
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.2,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        'assets/notfound.png',
+                                        width: 250,
+                                        height: 190,
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text(
+                                        'Oops! Tidak ada hasil',
+                                        style: primaryTextStyle.copyWith(
+                                            fontSize: 16, fontWeight: semiBold),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        'Maaf, sepertinya kami tidak dapat menemukan hasil yang sesuai dengan pencarian Anda.',
+                                        style: secondaryTextStyle.copyWith(
+                                            fontSize: 14, fontWeight: regular),
+                                        textAlign: TextAlign.center,
+                                      )
+                                    ],
+                                  )
+                                ]),
                 ),
               ),
       ),
     );
   }
-}
-
-class StockData extends DataTableSource {
-  final List<StokModel> data;
-
-  StockData({required this.data});
-
-  @override
-  DataRow? getRow(int index) {
-    int i = 1;
-    int number = i++;
-    if (index >= data.length) {
-      return null;
-    }
-
-    final item = data[index];
-
-    return DataRow(
-      cells: [
-        DataCell(Center(
-            child: Text(item.id.toString(),
-                style: primaryTextStyle.copyWith(
-                    fontSize: 12, fontWeight: medium)))),
-        DataCell(Center(
-            child: Text(item.namaProduk.toString(),
-                style: primaryTextStyle.copyWith(
-                    fontSize: 12, fontWeight: medium)))),
-        DataCell(Center(
-            child: Text(item.satuan.toString(),
-                style: primaryTextStyle.copyWith(
-                    fontSize: 12, fontWeight: medium)))),
-        DataCell(Center(
-            child: Text(item.stok_awal.toString(),
-                style: primaryTextStyle.copyWith(
-                    fontSize: 12, fontWeight: medium)))),
-        DataCell(Center(
-            child: Text(
-          "+${item.stok_masuk}",
-          style: greenTextStyle.copyWith(fontSize: 12, fontWeight: medium),
-        ))),
-        DataCell(Center(
-            child: Text(
-          "-${item.stok_keluar}",
-          style: redTextStyle.copyWith(fontSize: 12, fontWeight: medium),
-        ))),
-        DataCell(Center(
-            child: Text(
-          item.stok_akhir.toString(),
-          style: primaryTextStyle.copyWith(fontSize: 12, fontWeight: medium),
-        )))
-      ],
-    );
-  }
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get rowCount => data.length;
-
-  @override
-  int get selectedRowCount => 0;
 }
