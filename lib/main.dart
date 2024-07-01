@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:smp_app/page/addcartpage.dart';
+import 'package:smp_app/page/addtransaksipage.dart';
 import 'package:smp_app/page/changepasspage.dart';
 import 'package:smp_app/page/detailsalesman.dart';
 import 'package:smp_app/page/forgotpasspage.dart';
@@ -13,6 +15,7 @@ import 'package:smp_app/page/stokpage.dart';
 import 'package:smp_app/page/transaksipage.dart';
 import 'package:smp_app/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:smp_app/providers/cart_provider.dart';
 import 'package:smp_app/providers/detailhutang_provider.dart';
 import 'package:smp_app/providers/detailsalescustomer_provider.dart.dart';
 import 'package:smp_app/providers/detailsalesproduk_provider.dart';
@@ -44,6 +47,9 @@ class MyApp extends StatelessWidget {
           create: (context) => TransaksiProvider(),
         ),
         ChangeNotifierProvider(
+          create: (context) => CartProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => OmzetCustomerProvider(),
         ),
         ChangeNotifierProvider(
@@ -72,6 +78,8 @@ class MyApp extends StatelessWidget {
           '/changepass': (context) => const ChangePassPage(),
           '/homepage': (context) => const HomePage(),
           '/stokpage': (context) => const StokPage(),
+          '/addtransaksipage': (context) => const AddTransaksiPage(),
+          '/addcartpage': (context) => const AddCartPage(),
           '/omzetpage': (context) => const OmzetPage(),
           '/listsalesman': (context) => const ListSalesmanPage(),
         },

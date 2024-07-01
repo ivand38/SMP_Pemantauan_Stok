@@ -151,7 +151,7 @@ class _StokPageState extends State<StokPage> {
                                         CrossAxisAlignment.center,
                                     children: [
                                       Image.asset(
-                                        'assets/notfound.png',
+                                        'assets/data_notfound.png',
                                         width: 250,
                                         height: 190,
                                       ),

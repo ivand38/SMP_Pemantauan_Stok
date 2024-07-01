@@ -1,20 +1,18 @@
 class StokModel {
-  int? id;
   String? kode;
   String? namaProduk;
   String? satuan;
   // ignore: non_constant_identifier_names
   int? stok_awal;
   // ignore: non_constant_identifier_names
-  int? stok_masuk;
+  String? stok_masuk;
   // ignore: non_constant_identifier_names
-  int? stok_keluar;
+  String? stok_keluar;
   // ignore: non_constant_identifier_names
-  int? stok_akhir;
+  String? stok_akhir;
 
   StokModel(
-      {this.id,
-      this.kode,
+      {this.kode,
       this.namaProduk,
       this.satuan,
       // ignore: non_constant_identifier_names
@@ -27,7 +25,6 @@ class StokModel {
       this.stok_akhir});
 
   StokModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
     kode = json['kode'];
     namaProduk = json['nama_produk'];
     satuan = json['satuan'];
@@ -39,7 +36,6 @@ class StokModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'kode': kode,
       'namaProduk': namaProduk,
       'satuan': satuan,

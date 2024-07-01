@@ -19,7 +19,7 @@ class TransaksiPage extends StatefulWidget {
 
 class _TransaksiPageState extends State<TransaksiPage> {
   DateTimeRange dateRange = DateTimeRange(
-    start: DateTime.now().subtract(Duration(days: 6)),
+    start: DateTime.now().subtract(Duration(days: 7)),
     end: DateTime.now(),
   );
 
@@ -138,6 +138,18 @@ class _TransaksiPageState extends State<TransaksiPage> {
           ],
         ),
         backgroundColor: bgColor1,
+        floatingActionButton: widget.userModel.role.toString() == 'Salesman'
+            ? FloatingActionButton.small(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/addtransaksipage');
+                },
+                backgroundColor: bgColor3,
+                child: const Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+              )
+            : null,
         body: _isLoading
             ? Center(
                 child: CircularProgressIndicator(
@@ -269,7 +281,7 @@ class _TransaksiPageState extends State<TransaksiPage> {
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Image.asset(
-                                                'assets/notfound.png',
+                                                'assets/data_notfound.png',
                                                 width: 250,
                                                 height: 190,
                                               ),
@@ -344,7 +356,7 @@ class _TransaksiPageState extends State<TransaksiPage> {
                                                         fontSize: 14,
                                                         fontWeight: regular),
                                                 textAlign: TextAlign.center,
-                                              )
+                                              ),
                                             ],
                                           )
                                         ]
@@ -362,7 +374,7 @@ class _TransaksiPageState extends State<TransaksiPage> {
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Image.asset(
-                                                'assets/notfound.png',
+                                                'assets/data_notfound.png',
                                                 width: 250,
                                                 height: 190,
                                               ),

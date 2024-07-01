@@ -24,11 +24,19 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
 
       if (await authProvider.generateCode(emailController.text)) {
         Navigator.pushNamed(context, '/passcode');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            duration: Duration(seconds: 5),
+            backgroundColor: greenTextColor,
+            content: const Text(
+              'Kode Terkirim. Silahkan Cek Email',
+              textAlign: TextAlign.center,
+            )));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            duration: Duration(seconds: 5),
             backgroundColor: alertColor,
             content: const Text(
-              'Gagal Generate Kode',
+              'Email Tidak Terdaftar',
               textAlign: TextAlign.center,
             )));
       }

@@ -272,7 +272,7 @@ class _DaftarPiutangPageState extends State<DaftarPiutangPage> {
                                                             .center,
                                                     children: [
                                                       Image.asset(
-                                                        'assets/notfound.png',
+                                                        'assets/data_notfound.png',
                                                         width: 250,
                                                         height: 190,
                                                       ),

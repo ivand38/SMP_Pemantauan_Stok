@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class OmzetCustomerService {
   var logger = Logger();
-  String baseUrl = 'https://79ff-36-65-189-223.ngrok-free.app/api';
+  String baseUrl = 'https://sismp.online/api';
 
   Future<List<OmzetCustomerModel>> getOmzetCustomer(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

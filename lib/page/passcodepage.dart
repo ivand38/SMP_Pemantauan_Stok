@@ -29,6 +29,7 @@ class _PassCodePageState extends State<PassCodePage> {
         Navigator.pushNamed(context, '/changepass');
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            duration: Duration(seconds: 5),
             backgroundColor: alertColor,
             content: const Text(
               'Kode Salah, Silahkan Coba Lagi',

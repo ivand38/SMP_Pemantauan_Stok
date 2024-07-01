@@ -20,7 +20,7 @@ class DetailSalesCustomerPage extends StatefulWidget {
 
 class _DetailSalesCustomerPageState extends State<DetailSalesCustomerPage> {
   DateTimeRange dateRange = DateTimeRange(
-    start: DateTime.now().subtract(Duration(days: 6)),
+    start: DateTime.now().subtract(Duration(days: 7)),
     end: DateTime.now(),
   );
 
@@ -379,7 +379,7 @@ class _DetailSalesCustomerPageState extends State<DetailSalesCustomerPage> {
                                                             .center,
                                                     children: [
                                                       Image.asset(
-                                                        'assets/notfound.png',
+                                                        'assets/data_notfound.png',
                                                         width: 250,
                                                         height: 190,
                                                       ),

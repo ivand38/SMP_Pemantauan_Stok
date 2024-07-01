@@ -17,7 +17,7 @@ class OmzetSalesmanPage extends StatefulWidget {
 
 class _OmzetSalesmanPageState extends State<OmzetSalesmanPage> {
   DateTimeRange dateRange = DateTimeRange(
-    start: DateTime.now().subtract(Duration(days: 6)),
+    start: DateTime.now().subtract(Duration(days: 7)),
     end: DateTime.now(),
   );
 
@@ -221,7 +221,7 @@ class _OmzetSalesmanPageState extends State<OmzetSalesmanPage> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           Image.asset(
-                                            'assets/notfound.png',
+                                            'assets/data_notfound.png',
                                             width: 250,
                                             height: 190,
                                           ),

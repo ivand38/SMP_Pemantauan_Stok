@@ -30,12 +30,20 @@ class _ChangePassPageState extends State<ChangePassPage> {
       });
 
       if (await authProvider.changePass(passwordController.text)) {
-        Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+        Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false,
+            arguments: ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                duration: Duration(seconds: 5),
+                backgroundColor: greenTextColor,
+                content: const Text(
+                  'Password Telah Diganti',
+                  textAlign: TextAlign.center,
+                ))));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            duration: Duration(seconds: 5),
             backgroundColor: alertColor,
             content: const Text(
-              'Request Gagal',
+              'Request Gagal. Cek Koneksi Internet',
               textAlign: TextAlign.center,
             )));
       }
